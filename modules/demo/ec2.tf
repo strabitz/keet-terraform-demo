@@ -10,6 +10,14 @@ data "aws_ami" "centos" {
   owners = ["125523088429"]
 }
 
+data "template_file" "user_data" {
+  template = file("${path.module}/templates/user_data.tpl")
+
+  vars = {
+    region = var.region
+  }
+}
+
 resource "aws_instance" "instance" {
   ami                     = data.aws_ami.centos.id
   instance_type           = var.instance_type
@@ -17,4 +25,6 @@ resource "aws_instance" "instance" {
   tags = {
     Name  = "instance"
   }
+
+  user_data = data.template_file.user_data.rendered
 }
