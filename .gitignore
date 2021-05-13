@@ -1,0 +1,3 @@
+# Ignore auto-generated Terraform files
+.terraform*
+terraform.tfstate*
